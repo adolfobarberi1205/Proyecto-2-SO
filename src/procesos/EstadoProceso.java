@@ -8,6 +8,10 @@ package procesos;
  *
  * @author user
  */
-public class EstadoProceso {
-    
+public enum EstadoProceso {
+    NUEVO,
+    LISTO,
+    EJECUTANDO,
+    BLOQUEADO,
+    TERMINADO
 }
