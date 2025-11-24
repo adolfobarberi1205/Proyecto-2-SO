@@ -8,13 +8,29 @@ package simuladorsistemaarchivos;
  *
  * @author user
  */
+import Interfaz.VentanaPrincipal;
+import filesystem.Disco;
+import filesystem.Directorio;
+import filesystem.TablaAsignacion;
+import procesos.Planificador;
+
 public class SimuladorSistemaArchivos {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        // Crear estructuras principales del simulador
+        final Disco disco = new Disco(200);          // 200 bloques (ajusta si quieres)
+        final Directorio raiz = new Directorio("root", null);
+        final TablaAsignacion tabla = new TablaAsignacion();
+        final Planificador planificador = new Planificador();
+
+        // Lanzar la GUI en el hilo de eventos
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                VentanaPrincipal v = new VentanaPrincipal(disco, raiz, tabla, planificador);
+                v.setVisible(true);
+            }
+        });
     }
-    
 }
