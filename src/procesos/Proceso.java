@@ -14,15 +14,18 @@ public class Proceso {
     private String operacion;        // CREATE, READ, UPDATE, DELETE
     private String archivoObjetivo;  // nombre del archivo
     private EstadoProceso estado;
+    private int posicionObjetivo;    // pista del disco
+    private int tamanoEnBloques;     // tamaño lógico del archivo
 
-    // posición en el "disco" para simular movimiento de cabezal
-    private int posicionObjetivo;
-
-    public Proceso(int id, String operacion, String archivoObjetivo, int posicionObjetivo) {
+    public Proceso(int id, String operacion,
+                   String archivoObjetivo,
+                   int posicionObjetivo,
+                   int tamanoEnBloques) {
         this.id = id;
         this.operacion = operacion;
         this.archivoObjetivo = archivoObjetivo;
         this.posicionObjetivo = posicionObjetivo;
+        this.tamanoEnBloques = tamanoEnBloques;
         this.estado = EstadoProceso.NUEVO;
     }
 
@@ -54,9 +57,18 @@ public class Proceso {
         this.posicionObjetivo = posicionObjetivo;
     }
 
+    public int getTamanoEnBloques() {
+        return tamanoEnBloques;
+    }
+
+    public void setTamanoEnBloques(int tamanoEnBloques) {
+        this.tamanoEnBloques = tamanoEnBloques;
+    }
+
     @Override
     public String toString() {
         return "P" + id + " [" + operacion + " " + archivoObjetivo +
-               " @ " + posicionObjetivo + ", " + estado + "]";
+               " @ " + posicionObjetivo + ", " + estado +
+               ", size=" + tamanoEnBloques + "]";
     }
 }

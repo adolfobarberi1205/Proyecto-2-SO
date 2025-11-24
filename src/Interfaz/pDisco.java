@@ -54,5 +54,7 @@ public class pDisco extends JPanel {
             g.drawRect(x, y, ancho, alto);
             g.drawString(String.valueOf(i), x + 3, y + alto - 4);
         }
+    }public void actualizar() {
+        repaint();
     }
 }

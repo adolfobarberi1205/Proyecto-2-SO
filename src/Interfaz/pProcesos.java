@@ -34,13 +34,16 @@ import javax.swing.table.DefaultTableModel;
 public class pProcesos extends JPanel {
 
     private Planificador planificador;
+    private VentanaPrincipal ventana;
+
     private JTable tabla;
     private DefaultTableModel modelo;
     private JComboBox<String> comboPolitica;
     private int siguienteId = 1;
 
-    public pProcesos(Planificador planificador) {
+    public pProcesos(Planificador planificador, VentanaPrincipal ventana) {
         this.planificador = planificador;
+        this.ventana = ventana;
         initUI();
         actualizarTabla();
     }
@@ -48,15 +51,13 @@ public class pProcesos extends JPanel {
     private void initUI() {
         setLayout(new BorderLayout());
 
-        // Tabla
         modelo = new DefaultTableModel(
-                new Object[]{"ID", "Operación", "Archivo", "Posición", "Estado"},
+                new Object[]{"ID", "Operación", "Archivo", "Posición", "Tamaño", "Estado"},
                 0
         );
         tabla = new JTable(modelo);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
-        // Panel inferior con controles
         JPanel panelControles = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JButton btnAgregar = new JButton("Agregar proceso");
@@ -73,7 +74,6 @@ public class pProcesos extends JPanel {
 
         add(panelControles, BorderLayout.SOUTH);
 
-        // Eventos
         btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,7 +121,21 @@ public class pProcesos extends JPanel {
             return;
         }
 
-        Proceso p = new Proceso(siguienteId++, operacion, archivo, pos);
+        String tamStr = JOptionPane.showInputDialog(this,
+                "Tamaño del archivo en bloques:",
+                "3");
+        if (tamStr == null) return;
+
+        int tam;
+        try {
+            tam = Integer.parseInt(tamStr);
+            if (tam <= 0) tam = 1;
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Número inválido de bloques.");
+            return;
+        }
+
+        Proceso p = new Proceso(siguienteId++, operacion, archivo, pos, tam);
         planificador.agregarProceso(p);
         actualizarTabla();
     }
@@ -152,8 +166,10 @@ public class pProcesos extends JPanel {
                 "Seleccionado: " + p.toString() +
                         "\nPolítica: " + politica.getNombre());
 
-        // Simulamos que terminó
         p.setEstado(EstadoProceso.TERMINADO);
+
+        // Ejecuta la acción real (CREATE, DELETE, etc.) en el sistema de archivos
+        ventana.ejecutarAccionProceso(p);
 
         actualizarTabla();
     }
@@ -172,6 +188,7 @@ public class pProcesos extends JPanel {
                         p.getOperacion(),
                         p.getArchivoObjetivo(),
                         p.getPosicionObjetivo(),
+                        p.getTamanoEnBloques(),
                         p.getEstado()
                 });
             }
