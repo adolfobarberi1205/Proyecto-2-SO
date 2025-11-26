@@ -28,6 +28,18 @@ public class TablaAsignacion {
         idProcesoCreador = new int[MAX_REGISTROS];
         size = 0;
     }
+    
+        // Limpia completamente la tabla de asignación
+    public void limpiar() {
+        for (int i = 0; i < size; i++) {
+            archivos[i] = null;
+            cantidadBloques[i] = 0;
+            indicePrimerBloque[i] = -1;
+            colores[i] = null;
+            idProcesoCreador[i] = -1;
+        }
+        size = 0;
+    }
 
     public int getSize() {
         return size;

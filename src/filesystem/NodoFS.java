@@ -33,6 +33,11 @@ public abstract class NodoFS {
     public void setPadre(Directorio padre) {
         this.padre = padre;
     }
+    
+    @Override
+    public String toString() {
+        return getNombre();
+    }
 
     // Ruta tipo /root/dir/subdir/archivo
     public String getRutaCompleta() {

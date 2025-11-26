@@ -29,7 +29,8 @@ public class Directorio extends NodoFS {
         numHijos++;
         return true;
     }
-
+    
+    
     public void eliminarHijo(NodoFS hijo) {
         for (int i = 0; i < numHijos; i++) {
             if (hijos[i] == hijo) {
@@ -40,6 +41,15 @@ public class Directorio extends NodoFS {
             }
         }
     }
+    
+        // Elimina todos los hijos de este directorio
+    public void limpiar() {
+        for (int i = 0; i < numHijos; i++) {
+            hijos[i] = null;
+        }
+        numHijos = 0;
+    }
+
 
     public NodoFS getHijo(int indice) {
         if (indice < 0 || indice >= numHijos) {
