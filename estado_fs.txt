@@ -1,0 +1,8 @@
+DISCO 200
+DIR /root/d1
+DIR /root/d2
+DIR /root/d2/d21
+DIR /root/d2/d22
+DIR /root/d3
+DIR /root/d3/d31
+FILE /root/a1 5 0 #FFCC66
